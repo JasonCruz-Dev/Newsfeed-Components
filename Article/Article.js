@@ -84,6 +84,15 @@ const data = [{
     thirdParagraph: `Hodor hodor - hodor... Hodor hodor hodor hodor. Hodor. Hodor! Hodor hodor, hodor hodor hodor hodor hodor; hodor hodor? Hodor!
           Hodor hodor, HODOR hodor, hodor hodor?! Hodor! Hodor hodor, HODOR hodor, hodor hodor, hodor, hodor hodor. Hodor, hodor.
           Hodor. Hodor, hodor, hodor. Hodor hodor... Hodor hodor hodor?! Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor. Hodor.`
+  },
+  {
+    title: 'Lambda News Anchor',
+    date: 'Nov 7, 2019',
+    firstParagraph: `In todays news! Students are graduating left to right! TL's and SL's holding it down! What is this world coming too!? `,
+
+    secondParagraph: `More on the topic, TI - on Twitter! Can you believe..... `,
+
+    thirdParagraph: `In other news..`
   }
 ];
 
@@ -101,7 +110,11 @@ const data = [{
   Hint: You will need to use createElement more than once here!
 
   Your function should take either an object as it's one argument, or 5 separate arguments mapping to each piece of the data object above.
+*/
 
+
+
+/*
   Step 2: Add an event listener to the expandButton span. This event listener should toggle the class 'article-open' on the 'article' div.
 
   Step 3: return the entire component.
@@ -112,46 +125,69 @@ const data = [{
 
 */
 
-// let articles = document.querySelector('.articles');
-// data.forEach(obj => component(obj));
+let articles = document.querySelector('.articles');
 
-function component(title, date, first, second, third) {
-  let div = document.createElement('div');
-  div.classList.add('article');
+// ForEach method to create a new article and append it to the parentNode
+data.forEach(item => {
+  articles.appendChild(createArticle(item.title, item.date, item.firstParagraph, item.secondParagraph, item.thirdParagraph));
+})
 
-  let h2 = document.createElement('h2');
-  h2.textContent = title;
+function createArticle(title, date, firstP, secondP, thirdP) {
+  // Creating Variables
+  const article = document.createElement('div');
+  const close = document.createElement('span');
+  const header = document.createElement('h2');
+  const paragraphDate = document.createElement('p');
+  const firstParagraph = document.createElement('p');
+  const secondParagraph = document.createElement('p');
+  const thirdParagraph = document.createElement('p');
+  const span = document.createElement('span');
 
-  let datep = document.createElement('p');
-  datep.classList.add('date');
-  datep.textContent = date;
+  // Adding ClassList's
+  span.classList.add('close-btn');
+  article.classList.add('article');
+  paragraphDate.classList.add('date');
+  span.classList.add('expandButton');
 
-  let firstP = document.createElement('p');
-  firstP.textContent = first;
+  // Appending the elements
+  article.appendChild(close);
+  article.appendChild(header);
+  article.appendChild(paragraphDate);
+  article.appendChild(firstParagraph);
+  article.appendChild(secondParagraph);
+  article.appendChild(thirdParagraph);
+  article.appendChild(span);
 
-  let secondP = document.createElement('p');
-  secondP.textContent = second;
+  // TextContent for the elements
+  close.textContent = 'Close';
+  header.textContent = title;
+  paragraphDate.textContent = date;
+  firstParagraph.textContent = firstP;
+  secondParagraph.textContent = secondP;
+  thirdParagraph.textContent = thirdP;
+  span.textContent = 'Read More';
 
-  let thirdP = document.createElement('p');
-  thirdP.textContent = third;
+  // Style close span
+  close.style.color = 'black';
+  close.style.fontSize = '1.2rem';
+  close.style.position = 'absolute';
+  close.style.left = '95%';
+  close.style.top = '5%';
+  close.style.cursor = 'pointer';
 
-  let expBtn = document.createElement('span');
-  expBtn.classList.add('expandButton');
-  expBtn.textContent = 'Read More';
-  expBtn.addEventListener('click', () => div.classList.toggle('article-open'));
+  // EventListener to have hover effect and to delete the article
+  close.addEventListener('mouseover', (e) => e.currentTarget.style.transform = 'scale(1.1)');
+  close.addEventListener('mouseout', (e) => e.currentTarget.style.transform = 'scale(1.00)');
+  close.addEventListener('click', () => article.remove('article'));
 
-  div.appendChild(h2);
-  div.appendChild(datep);
-  div.appendChild(firstP);
-  div.appendChild(secondP);
-  div.appendChild(thirdP);
-  div.appendChild(expBtn);
+  // EventListener to toggle the class article-open.
+  span.addEventListener('click', () => {
+    if (article.classList.toggle('article-open')) {
+      span.textContent = 'Read Less';
+    } else {
+      span.textContent = 'Read More';
+    }
+  });
 
-  return div;
+  return article;
 }
-
-let articleData = data.map(m => component(m.title, m.date, m.firstParagraph, m.secondParagraph, m.thirdParagraph))
-
-let articleDiv = document.querySelector('.articles');
-
-articleData.forEach(article => articleDiv.appendChild(article));
