@@ -1,7 +1,6 @@
 /* This is the data we will be using to create our article components */
 /* Look over this data, then proceed to line 91*/
-const data = [
-  {
+const data = [{
     title: 'Lambda School Students: "We\'re the best!"',
     date: 'Nov 5th, 2018',
     firstParagraph: `Lucas ipsum dolor sit amet ben twi'lek padmé darth darth darth moff hutt organa twi'lek. Ben amidala secura skywalker lando
@@ -112,3 +111,47 @@ const data = [
   Step 5: Add a new article to the array. Make sure it is in the same format as the others. Refresh the page to see the new article.
 
 */
+
+// let articles = document.querySelector('.articles');
+// data.forEach(obj => component(obj));
+
+function component(title, date, first, second, third) {
+  let div = document.createElement('div');
+  div.classList.add('article');
+
+  let h2 = document.createElement('h2');
+  h2.textContent = title;
+
+  let datep = document.createElement('p');
+  datep.classList.add('date');
+  datep.textContent = date;
+
+  let firstP = document.createElement('p');
+  firstP.textContent = first;
+
+  let secondP = document.createElement('p');
+  secondP.textContent = second;
+
+  let thirdP = document.createElement('p');
+  thirdP.textContent = third;
+
+  let expBtn = document.createElement('span');
+  expBtn.classList.add('expandButton');
+  expBtn.textContent = 'Read More';
+  expBtn.addEventListener('click', () => div.classList.toggle('article-open'));
+
+  div.appendChild(h2);
+  div.appendChild(datep);
+  div.appendChild(firstP);
+  div.appendChild(secondP);
+  div.appendChild(thirdP);
+  div.appendChild(expBtn);
+
+  return div;
+}
+
+let articleData = data.map(m => component(m.title, m.date, m.firstParagraph, m.secondParagraph, m.thirdParagraph))
+
+let articleDiv = document.querySelector('.articles');
+
+articleData.forEach(article => articleDiv.appendChild(article));
